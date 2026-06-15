@@ -44,7 +44,6 @@
             margin-bottom: 15px;
         }
 
-        /* お題の文字を表示するエリア */
         .word-display {
             font-size: 36px;
             font-weight: bold;
@@ -57,7 +56,6 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* 入力フォーム */
         #type-input {
             width: 100%;
             padding: 12px 20px;
@@ -106,7 +104,7 @@
             cursor: pointer;
             width: 100%;
             margin-top: 15px;
-            display: none; /* ゲーム終了まで隠す */
+            display: none; 
         }
 
         .ad-space-box {
@@ -129,12 +127,11 @@
         <h1>IT・建築用語タイピング</h1>
         <div id="status" style="color: #a4b0be; font-size: 13px; margin-bottom: 10px;">スタートを押してタイピング開始！</div>
 
+        <!-- 【時間修正】初期表示を60秒に変更 -->
         <div class="timer-box">残り時間: <span id="time-left">60</span>秒</div>
 
-        <!-- お題表示 -->
         <div class="word-display" id="word-target">CAD</div>
 
-        <!-- 入力欄 -->
         <input type="text" id="type-input" placeholder="ここに入力してね" disabled autocomplete="off">
 
         <div class="score-display">スコア: <span id="score">0</span> 点</div>
@@ -143,7 +140,6 @@
         <button id="copy-btn">最高スコアをコピーしてXで自慢する 📋</button>
     </div>
 
-    <!-- 広告枠 -->
     <div class="ad-space-box">
         <div class="ad-label">Sponsored</div>
         <div class="ad-placeholder-text">
@@ -153,14 +149,15 @@
     </div>
 
     <script>
-        // ゲームに出てくる単語リスト（ココアさんに関連するIT・建築用語）
         const words = ["CAD", "VERCEL", "GITHUB", "HTML", "CSS", "JAVASCRIPT", "COCOA", "LAPTOP", "CODE", "PRO", "GAMINGPC", "JWS", "SERVER"];
         
         let score = 0;
-        let timeLeft = 10;
+        // 【時間修正】1分（60秒）に延長！
+        let timeLeft = 60;
         let isPlaying = false;
         let timerId = null;
         let currentWord = "";
+        let shareText = ""; // コピーする文章を保存するグローバル変数
 
         const wordTarget = document.getElementById("word-target");
         const typeInput = document.getElementById("type-input");
@@ -170,18 +167,17 @@
         const copyBtn = document.getElementById("copy-btn");
         const statusText = document.getElementById("status");
 
-        // ランダムにお題をセットする関数
         function setNextWord() {
             const randomIndex = Math.floor(Math.random() * words.length);
             currentWord = words[randomIndex];
             wordTarget.textContent = currentWord;
-            typeInput.value = ""; // 入力欄をクリア
+            typeInput.value = ""; 
         }
 
-        // ゲームスタートボタンを押したとき
         startBtn.addEventListener("click", () => {
             score = 0;
-            timeLeft = 10;
+            // 【時間修正】スタート時も60秒にリセット
+            timeLeft = 60;
             isPlaying = true;
             scoreText.textContent = score;
             timeLeftText.textContent = timeLeft;
@@ -193,7 +189,6 @@
 
             setNextWord();
 
-            // 1秒ごとに実行するカウントダウンタイマー
             timerId = setInterval(() => {
                 timeLeft--;
                 timeLeftText.textContent = timeLeft;
@@ -205,41 +200,37 @@
             }, 1000);
         });
 
-        // 【今回の最重要スキル：キーボード入力の検知】
         typeInput.addEventListener("input", () => {
             if (!isPlaying) return;
 
-            // 入力された文字をすべて「大文字」に変換して、お題と一致しているか判定
             if (typeInput.value.toUpperCase() === currentWord) {
-                score += 10; // 10点プラス
+                score += 10; 
                 scoreText.textContent = score;
-                setNextWord(); // 次の単語へ
+                setNextWord(); 
             }
         });
 
-        // ゲーム終了処理
         function endGame() {
             isPlaying = false;
             typeInput.disabled = true;
             startBtn.style.display = "block";
             startBtn.textContent = "もう一度挑戦する！🔄";
             statusText.textContent = "タイムアップ！お疲れ様でした！";
+            
+            // 【バグ修正】ゲーム終了時に、確定したスコアを使って正しい文章をセットします！
+            shareText = `ココアのスピードタイピングゲームに挑戦！1分間で【スコア：${score}点】を叩き出しました！ゲーミングPCのタイピング速度なら負けません！ #ココアのタイピングゲーム`;
+            
             copyBtn.style.display = "block";
         }
 
-        // 絶対にブロックされないコピー報告ボタン
-                // 絶対にブロックされずに文字をコピーし、同時にXを安全に開く処理
+        // コピーと同時にXを開く安全な処理
         copyBtn.addEventListener("click", () => {
             navigator.clipboard.writeText(shareText).then(() => {
-                // 1. ボタンを緑色にしてコピー成功を伝える
                 copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
                 copyBtn.style.backgroundColor = "#2ed573";
                 
-                // 2. PCやスマホのセキュリティに弾かれない安全な方法で、1秒後にXを開く[INDEX]
                 setTimeout(() => {
                     window.open("https://x.com", "_blank");
-                    
-                    // 3. ボタンの文字を元に戻す
                     copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
                     copyBtn.style.backgroundColor = "#1da1f2";
                 }, 1000);
@@ -247,7 +238,6 @@
                 alert("コピーに失敗しました。");
             });
         });
-
     </script>
 </body>
 </html>
