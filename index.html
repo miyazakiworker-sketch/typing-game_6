@@ -129,7 +129,7 @@
         <h1>IT・建築用語タイピング</h1>
         <div id="status" style="color: #a4b0be; font-size: 13px; margin-bottom: 10px;">スタートを押してタイピング開始！</div>
 
-        <div class="timer-box">残り時間: <span id="time-left">10</span>秒</div>
+        <div class="timer-box">残り時間: <span id="time-left">60</span>秒</div>
 
         <!-- お題表示 -->
         <div class="word-display" id="word-target">CAD</div>
@@ -228,18 +228,26 @@
         }
 
         // 絶対にブロックされないコピー報告ボタン
+                // 絶対にブロックされずに文字をコピーし、同時にXを安全に開く処理
         copyBtn.addEventListener("click", () => {
-            const message = `ココアのスピードタイピングゲームに挑戦！10秒間で【スコア：${score}点】を叩き出しました！ゲーミングPCのタイピング速度なら負けません！ #ココアのタイピングゲーム`;
-            
-            navigator.clipboard.writeText(message).then(() => {
-                copyBtn.textContent = "スコアコピー完了！そのままXに貼り付けられます！ ✅";
+            navigator.clipboard.writeText(shareText).then(() => {
+                // 1. ボタンを緑色にしてコピー成功を伝える
+                copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
                 copyBtn.style.backgroundColor = "#2ed573";
+                
+                // 2. PCやスマホのセキュリティに弾かれない安全な方法で、1秒後にXを開く[INDEX]
                 setTimeout(() => {
+                    window.open("https://x.com", "_blank");
+                    
+                    // 3. ボタンの文字を元に戻す
                     copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
                     copyBtn.style.backgroundColor = "#1da1f2";
-                }, 2000);
+                }, 1000);
+            }).catch(err => {
+                alert("コピーに失敗しました。");
             });
         });
+
     </script>
 </body>
 </html>
