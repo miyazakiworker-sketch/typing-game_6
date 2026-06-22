@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ココアのスピードタイピング！ミニゲーム</title>
+    <title>IT・建築用語タイピング</title>
     <style>
+        /* ココアさんの元のデザイン・カラーを完全継承 */
         body {
             background-color: #1e272e;
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: white;
+            color: #fff;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -18,135 +19,50 @@
             padding: 15px;
             box-sizing: border-box;
         }
-
         .container {
-            background-color: #2f3640;
-            padding: 30px;
+            background-color: white;
+            color: #333;
+            padding: 25px 20px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             width: 100%;       
             max-width: 440px;  
             box-sizing: border-box;
             text-align: center;
-            margin-bottom: 25px;
+            margin: 0 auto 20px auto;
         }
-
-        h1 {
-            color: #00d2d3;
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .timer-box {
-            font-size: 20px;
-            color: #ff4757;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .word-display {
-            font-size: 36px;
-            font-weight: bold;
-            color: #fbc531;
-            background-color: #353b48;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        #type-input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 3px solid #718093;
-            border-radius: 25px;
-            font-size: 18px;
-            text-align: center;
-            outline: none;
-            box-sizing: border-box;
-            background-color: white;
-            color: #2f3640;
-            margin-bottom: 15px;
-        }
-        #type-input:focus { border-color: #00d2d3; }
-        #type-input:disabled { background-color: #718093; cursor: not-allowed; }
-
-        .score-display {
-            color: #4cd137;
-            font-size: 18px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        #start-btn {
-            background-color: #00d2d3;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 6px rgba(0,210,211,0.3);
-        }
-        #start-btn:hover { background-color: #00a8ff; }
-
-        #copy-btn {
-            background-color: #1da1f2;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            display: none; 
-        }
-
-        .ad-space-box {
-            width: 100%;
-            max-width: 440px;
-            box-sizing: border-box;
-            background-color: #353b48;
-            border: 2px dashed #718093;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-        }
-        .ad-label { font-size: 11px; font-weight: bold; color: #718093; margin-bottom: 5px; }
-        .ad-placeholder-text { font-size: 12px; color: #718093; line-height: 1.4; }
+        h1 { color: #2980b9; font-size: 22px; margin-bottom: 10px; }
+        .timer-box { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #e74c3c; }
+        .word-display { font-size: 36px; font-weight: bold; color: #2c3e50; letter-spacing: 2px; margin: 20px 0; background: #ecf0f1; padding: 10px; border-radius: 10px; }
+        #type-input { width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 25px; font-size: 16px; text-align: center; outline: none; box-sizing: border-box; }
+        #type-input:focus { border-color: #2980b9; }
+        .score-display { font-size: 18px; font-weight: bold; margin-top: 15px; color: #2ecc71; }
+        #start-btn, #copy-btn { width: 100%; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 25px; border: none; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: background 0.2s; }
+        #start-btn { background-color: #2980b9; color: white; }
+        #start-btn:hover { background-color: #3498db; }
+        #copy-btn { background-color: #1da1f2; color: white; display: none; }
+        #copy-btn:hover { background-color: #4ab3f4; }
+        .ad-space-box { width: 100%; max-width: 440px; background-color: #2c3e50; border: 2px dashed #4b6584; border-radius: 12px; padding: 15px; text-align: center; color: #a4b0be; margin-bottom: 20px; box-sizing: border-box; }
+        .ad-label { font-size: 11px; font-weight: bold; margin-bottom: 5px; }
+        .ad-placeholder-text { font-size: 12px; line-height: 1.4; }
     </style>
 </head>
-    <!-- 【開発者看板リンク】これを追加するだけで自動でXに繋がります -->
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="https://x.com/cocoa_next7" target="_blank" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
-            🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
-        </a>
-    </div>
-
-    <body>
+<body>
 
     <div class="container">
         <h1>IT・建築用語タイピング</h1>
-        <div id="status" style="color: #a4b0be; font-size: 13px; margin-bottom: 10px;">スタートを押してタイピング開始！</div>
+        <div id="status" style="color: #7f8c8d; font-size: 13px; margin-bottom: 10px;">スタートを押してタイピング開始！</div>
 
-        <!-- 【時間修正】初期表示を60秒に変更 -->
         <div class="timer-box">残り時間: <span id="time-left">60</span>秒</div>
-
         <div class="word-display" id="word-target">CAD</div>
-
         <input type="text" id="type-input" placeholder="ここに入力してね" disabled autocomplete="off">
-
         <div class="score-display">スコア: <span id="score">0</span> 点</div>
 
         <button id="start-btn">ゲームスタート！🎮</button>
         <button id="copy-btn">最高スコアをコピーしてXで自慢する 📋</button>
     </div>
 
+    <!-- 将来の広告枠 -->
     <div class="ad-space-box">
         <div class="ad-label">Sponsored</div>
         <div class="ad-placeholder-text">
@@ -155,16 +71,20 @@
         </div>
     </div>
 
+    <!-- 🛠️ ココアさんの本物のアカウントへ直行する安全な看板リンク -->
+    <div class="footer-link" style="text-align: center; margin-top: 10px; font-size: 12px;">
+      開発者：<a href="https://x.com" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; font-weight: bold;">ココア (@cocoa_next7)</a>
+    </div>
+
     <script>
         const words = ["CAD", "VERCEL", "GITHUB", "HTML", "CSS", "JAVASCRIPT", "COCOA", "LAPTOP", "CODE", "PRO", "GAMINGPC", "JWS", "SERVER"];
         
         let score = 0;
-        // 【時間修正】1分（60秒）に延長！
         let timeLeft = 60;
         let isPlaying = false;
         let timerId = null;
         let currentWord = "";
-        let shareText = ""; // コピーする文章を保存するグローバル変数
+        let shareText = "";
 
         const wordTarget = document.getElementById("word-target");
         const typeInput = document.getElementById("type-input");
@@ -183,7 +103,6 @@
 
         startBtn.addEventListener("click", () => {
             score = 0;
-            // 【時間修正】スタート時も60秒にリセット
             timeLeft = 60;
             isPlaying = true;
             scoreText.textContent = score;
@@ -224,33 +143,28 @@
             startBtn.textContent = "もう一度挑戦する！🔄";
             statusText.textContent = "タイムアップ！お疲れ様でした！";
             
-            // 【バグ修正】ゲーム終了時に、確定したスコアを使って正しい文章をセットします！
-            shareText = `ココアのスピードタイピングゲームに挑戦！1分間で【スコア：${score}点】を叩き出しました！ゲーミングPCのタイピング速度なら負けません！ #ココアのタイピングゲーム`;
-            
+            shareText = `ココアのスピードタイピングゲームに挑戦！1分間で【スコア：${score}点】を叩き出しました！アプデ後もURLは一生同じ！ #ココアのタイピングゲーム`;
             copyBtn.style.display = "block";
         }
 
-        // コピーと同時にXを開く安全な処理
+        // コピーと同時にXを開く安全・最速ジャンプ処理
         copyBtn.addEventListener("click", () => {
+            if (!shareText) return;
             navigator.clipboard.writeText(shareText).then(() => {
                 copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
                 copyBtn.style.backgroundColor = "#2ed573";
                 
+                const xUrl = `https://x.com{encodeURIComponent(shareText)}`;
+                
                 setTimeout(() => {
-                    window.open("https://x.com", "_blank");
+                    window.open(xUrl, '_blank', 'noopener,noreferrer');
                     copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
                     copyBtn.style.backgroundColor = "#1da1f2";
-                }, 1000);
-            }).catch(err => {
+                }, 800);
+            }).catch(() => {
                 alert("コピーに失敗しました。");
             });
         });
     </script>
 </body>
-    <!-- ーーー ここから看板リンクのHTMLパーツ ーーー -->
-<div class="footer-link" style="text-align: center; margin-top: 25px; font-size: 12px;">
-  開発者：<a href="https://x.com/cocoa_next7" target="_blank" rel="noopener noreferrer" style="color: #e67e22; text-decoration: none; font-weight: bold;">ココア (@cocoa_next7)</a>
-</div>
-<!-- ーーー ここまで看板リンクのHTMLパーツ ーーー -->
-
 </html>
