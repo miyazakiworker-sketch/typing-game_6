@@ -117,9 +117,9 @@
 </head>
 <body>
 
-    <!-- 🛠️ 修正：targetに固有のウィンドウ名「cocoa_x_tab」を指定することで、無限のタブ複製を一撃で完全封鎖！ -->
+    <!-- 🔍 修正の肝：target名を独自の「cocoa_x_profile」に完全指定。これで看板リンクを何回連打しても新しいページは複製されず、1枚のタブで綺麗に上書きされます！ -->
     <div style="text-align: center; margin-bottom: 20px;">
-        <a href="x.com/cocoa_next7" target="cocoa_x_tab" rel="noopener noreferrer" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
+        <a href="x.com/cocoa_next7" target="cocoa_x_profile" rel="noopener noreferrer" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
             🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
         </a>
     </div>
@@ -220,10 +220,21 @@
             copyBtn.style.display = "block";
         }
 
+        // コピーボタンも同じ専用タブを使い回すよう統一
         copyBtn.addEventListener("click", () => {
+            if (!shareText) return;
             navigator.clipboard.writeText(shareText).then(() => {
-                alert("📋 スコアをクリップボードにコピーしました！Xに貼り付けて自慢してください！");
-            }).catch(err => {
+                copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
+                copyBtn.style.backgroundColor = "#2ed573";
+                
+                const xUrl = `https://x.com{encodeURIComponent(shareText)}`;
+                
+                setTimeout(() => {
+                    window.open(xUrl, 'cocoa_x_profile', 'noopener,noreferrer');
+                    copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
+                    copyBtn.style.backgroundColor = "#1da1f2";
+                }, 800);
+            }).catch(() => {
                 alert("コピーに失敗しました。");
             });
         });
