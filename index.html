@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <!-- 🛠️ ココアさんの本物のアカウントへ直行する安全な看板リンク -->
+    <!-- 🛠️ ココアさんの本物のURL（https://x.com）へ完全直行する安全な看板リンク -->
     <div class="footer-link" style="text-align: center; margin-top: 10px; font-size: 12px;">
       開発者：<a href="https://x.com" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; font-weight: bold;">ココア (@cocoa_next7)</a>
     </div>
@@ -143,17 +143,19 @@
             startBtn.textContent = "もう一度挑戦する！🔄";
             statusText.textContent = "タイムアップ！お疲れ様でした！";
             
-            shareText = `ココアのスピードタイピングゲームに挑戦！1分間で【スコア：${score}点】を叩き出しました！アプデ後もURLは一生同じ！ #ココアのタイピングゲーム`;
+            // 【URL固定】X上で他のユーザーがココアさんのアカウントを見つけやすいよう文言に組み込み
+            shareText = `ココアのスピードタイピングゲームに挑戦！1分間で【スコア：${score}点】を叩き出しました！開発者：@cocoa_next7 アプデ後もURLは一生同じ！ #ココアのタイピングゲーム`;
             copyBtn.style.display = "block";
         }
 
-        // コピーと同時にXを開く安全・最速ジャンプ処理
+        // コピーと同時にココアさんの本物のアカウント宛てに共有画面を開く最速ジャンプ処理
         copyBtn.addEventListener("click", () => {
             if (!shareText) return;
             navigator.clipboard.writeText(shareText).then(() => {
                 copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
                 copyBtn.style.backgroundColor = "#2ed573";
                 
+                // ココアさんの本物のURLにインテントを完全紐付け
                 const xUrl = `https://x.com{encodeURIComponent(shareText)}`;
                 
                 setTimeout(() => {
