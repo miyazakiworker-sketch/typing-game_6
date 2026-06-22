@@ -117,7 +117,7 @@
 </head>
 <body>
 
-    <!-- 🛠️ 看板リンク：何回押しても独自の「cocoa_x_tab」に上書きされ、新しいページは複製されません -->
+    <!-- 🛠️ 看板リンク：ココアさんの指定のURLに完全上書き固定。新タブが複製されないようtargetを同じ名前に固定 -->
     <div style="text-align: center; margin-bottom: 20px;">
         <a href="https://x.com/cocoa_next7" target="cocoa_x_tab" rel="noopener noreferrer" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
             🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
@@ -220,24 +220,11 @@
             copyBtn.style.display = "block";
         }
 
-        // 🛠️ コピーボタンの処理：安全な動的関数（Function）を使ってブラウザの検知バグを完全回避
+        // 大元の正常に動いていたコピーロジックのみを復元
         copyBtn.addEventListener("click", () => {
             if (!shareText) return;
-            
-            const xUrl = "https://x.com" + encodeURIComponent(shareText);
-            
-            // AIのフィルターバグに絶対に引っかからないプロの裏技記述
-            const openTab = new Function("url", "name", "window.open(url, name, 'noopener,noreferrer');");
-            openTab(xUrl, 'cocoa_x_tab');
-
             navigator.clipboard.writeText(shareText).then(() => {
-                copyBtn.textContent = "スコアコピー＆X移動完了！💨";
-                copyBtn.style.backgroundColor = "#2ed573";
-                
-                setTimeout(() => {
-                    copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
-                    copyBtn.style.backgroundColor = "#1da1f2";
-                }, 1500);
+                alert("📋 スコアをクリップボードにコピーしました！Xに貼り付けて自慢してください！");
             }).catch(() => {
                 alert("コピーに失敗しました。");
             });
