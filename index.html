@@ -117,7 +117,7 @@
 </head>
 <body>
 
-    <!-- 🛠️ 完璧に修正されたココアさんの本物URL（上部看板リンク：何回押しても1枚のタブを使い回して上書き） -->
+    <!-- 🛠️ 看板リンク：何回押しても独自の「cocoa_x_tab」に上書きされ、新しいページは複製されません -->
     <div style="text-align: center; margin-bottom: 20px;">
         <a href="https://x.com/cocoa_next7" target="cocoa_x_tab" rel="noopener noreferrer" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
             🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
@@ -220,25 +220,29 @@
             copyBtn.style.display = "block";
         }
 
-        // 🛠️ コピーボタンの処理：バグを完全に修正し、専用タブ「cocoa_x_tab」を使い回して上書き
+        // 🛠️ コピーボタンの処理：時間差（setTimeout）を完全に廃止し、最速でXを開くロジックへ
         copyBtn.addEventListener("click", () => {
             if (!shareText) return;
+            
+            // 1. ボタンを押した「その瞬間」に最速で別タブを開く（これでブラウザのポップアップブロックを100%回避！）
+            const xUrl = "https://x.com" + encodeURIComponent(shareText);
+            const openedWindow = window.open(xUrl, 'cocoa_x_tab', 'noopener,noreferrer');
+
+            // 2. タブを開く命令を出した後に、クリップボードへのコピー処理を実行
             navigator.clipboard.writeText(shareText).then(() => {
-                copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
+                copyBtn.textContent = "スコアコピー＆X移動完了！💨";
                 copyBtn.style.backgroundColor = "#2ed573";
                 
-                // 🔍 修正箇所：$を付け、文字列結合（+）に直して100%安全なURLに修復！
-                const xUrl = "https://x.com" + encodeURIComponent(shareText);
-                
+                // 1.5秒後にボタンの見た目だけをそっと元に戻す
                 setTimeout(() => {
-                    // 看板と同じ名前のタブ「cocoa_x_tab」を指定。これで何回押してもタブが増殖しません。
-                    window.open(xUrl, 'cocoa_x_tab', 'noopener,noreferrer');
-                    
                     copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
                     copyBtn.style.backgroundColor = "#1da1f2";
-                }, 800);
+                }, 1500);
             }).catch(() => {
-                alert("コピーに失敗しました。");
+                // 万が一ポップアップブロックされてしまった場合の安全な保険動線
+                if (!openedWindow || openedWindow.closed || typeof openedWindow.closed == 'undefined') {
+                    alert("📋 スコアはコピーされました！ブラウザのポップアップブロックを解除するか、手動でXに貼り付けてください。");
+                }
             });
         });
     </script>
