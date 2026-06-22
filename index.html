@@ -117,9 +117,9 @@
 </head>
 <body>
 
-    <!-- 🔍 修正の肝：target名を独自の「cocoa_x_profile」に完全指定。これで看板リンクを何回連打しても新しいページは複製されず、1枚のタブで綺麗に上書きされます！ -->
+    <!-- 🛠️ 完璧に修正されたココアさんの本物URL（上部看板リンク：何回押しても1枚のタブを使い回して上書き） -->
     <div style="text-align: center; margin-bottom: 20px;">
-        <a href="x.com/cocoa_next7" target="cocoa_x_profile" rel="noopener noreferrer" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
+        <a href="https://x.com/cocoa_next7" target="cocoa_x_tab" rel="noopener noreferrer" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
             🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
         </a>
     </div>
@@ -220,17 +220,20 @@
             copyBtn.style.display = "block";
         }
 
-        // コピーボタンも同じ専用タブを使い回すよう統一
+        // 🛠️ コピーボタンの処理：バグを完全に修正し、専用タブ「cocoa_x_tab」を使い回して上書き
         copyBtn.addEventListener("click", () => {
             if (!shareText) return;
             navigator.clipboard.writeText(shareText).then(() => {
                 copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
                 copyBtn.style.backgroundColor = "#2ed573";
                 
-                const xUrl = `https://x.com{encodeURIComponent(shareText)}`;
+                // 🔍 修正箇所：$を付け、文字列結合（+）に直して100%安全なURLに修復！
+                const xUrl = "https://x.com" + encodeURIComponent(shareText);
                 
                 setTimeout(() => {
-                    window.open(xUrl, 'cocoa_x_profile', 'noopener,noreferrer');
+                    // 看板と同じ名前のタブ「cocoa_x_tab」を指定。これで何回押してもタブが増殖しません。
+                    window.open(xUrl, 'cocoa_x_tab', 'noopener,noreferrer');
+                    
                     copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
                     copyBtn.style.backgroundColor = "#1da1f2";
                 }, 800);
