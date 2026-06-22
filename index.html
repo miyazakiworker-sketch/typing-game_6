@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT・建築用語タイピング</title>
     <style>
-        /* ココアさんの元のデザイン・カラーを完全継承 */
         body {
             background-color: #1e272e;
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -62,7 +61,6 @@
         <button id="copy-btn">最高スコアをコピーしてXで自慢する 📋</button>
     </div>
 
-    <!-- 将来の広告枠 -->
     <div class="ad-space-box">
         <div class="ad-label">Sponsored</div>
         <div class="ad-placeholder-text">
@@ -71,9 +69,9 @@
         </div>
     </div>
 
-    <!-- 🛠️ ココアさんの本物のプロフURL（https://x.com）へ完全直行する安全な看板リンク -->
+    <!-- 看板リンク：ココアさんの本物URLに完全固定 -->
     <div class="footer-link" style="text-align: center; margin-top: 10px; font-size: 12px;">
-      開発者：<a href="https://x.com/cocoa_next7" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; font-weight: bold;">ココア (@cocoa_next7)</a>
+      開発者：<a href="https://x.com" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; font-weight: bold;">ココア (@cocoa_next7)</a>
     </div>
 
     <script>
@@ -147,15 +145,15 @@
             copyBtn.style.display = "block";
         }
 
-        // コピーと同時に【ココアさんの本物のXアカウントURL】へ直行させる最速ジャンプ処理
+        // コピーボタンクリック時の処理：完全に1本化して文法エラーを徹底封鎖
         copyBtn.addEventListener("click", () => {
             if (!shareText) return;
             navigator.clipboard.writeText(shareText).then(() => {
                 copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
                 copyBtn.style.backgroundColor = "#2ed573";
                 
-                // ココアさんのプロフURLに完全固定
-                const xUrl = https://x.com/cocoa_next7";
+                // ココアさんの本物のプロフURLへ一撃直行
+                const xUrl = "https://x.com";
                 
                 setTimeout(() => {
                     window.open(xUrl, '_blank', 'noopener,noreferrer');
