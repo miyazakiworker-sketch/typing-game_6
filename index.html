@@ -69,9 +69,9 @@
         </div>
     </div>
 
-    <!-- 看板リンク：ココアさんの本物URLに完全固定 -->
+    <!-- 修正：target="_blank"を削除し、同じタブで遷移させる -->
     <div class="footer-link" style="text-align: center; margin-top: 10px; font-size: 12px;">
-      開発者：<a href="x.com/cocoa_next7" target="_blank" rel="noopener noreferrer" style="color: #3498db; text-decoration: none; font-weight: bold;">ココア (@cocoa_next7)</a>
+      <a href="x.com/cocoa_next7" style="color: #3498db; text-decoration: none; font-weight: bold;">開発者：ココア (@cocoa_next7)</a>
     </div>
 
     <script>
@@ -141,24 +141,22 @@
             startBtn.textContent = "もう一度挑戦する！🔄";
             statusText.textContent = "タイムアップ！お疲れ様でした！";
             
-            shareText = `ココアのスピードタイピングゲームに挑戦！1分間で【スコア：${score}点】を叩き出しました！開発者：@cocoa_next7 アプデ後もURLは一生同じ！ #ココアのタイピングゲーム`;
+            shareText = `ココアのスピードタイピングゲームに挑戦！1分間で【スコア：${score}点】を叩き出しました！開発者：@cocoa_next7 #ココアのタイピングゲーム`;
             copyBtn.style.display = "block";
         }
 
-        // コピーボタンクリック時の処理：完全に1本化して文法エラーを徹底封鎖
+        // コピーボタンクリック時の処理
         copyBtn.addEventListener("click", () => {
             if (!shareText) return;
             navigator.clipboard.writeText(shareText).then(() => {
                 copyBtn.textContent = "スコアコピー完了！Xへ移動します...💨";
                 copyBtn.style.backgroundColor = "#2ed573";
                 
-                // ココアさんの本物のプロフURLへ一撃直行
-                const xUrl = "x.com/cocoa_next7";
+                const xUrl = "https://x.com";
                 
                 setTimeout(() => {
-                    window.open(xUrl, '_blank', 'noopener,noreferrer');
-                    copyBtn.textContent = "最高スコアをコピーしてXで自慢する 📋";
-                    copyBtn.style.backgroundColor = "#1da1f2";
+                    // 修正：window.openを廃止し、現在の画面を移動させる
+                    window.location.href = xUrl;
                 }, 800);
             }).catch(() => {
                 alert("コピーに失敗しました。");
