@@ -117,18 +117,17 @@
 </head>
 <body>
 
-    <!-- 100%元通り：上部にあるココアさんの本物の公式看板リンク -->
-    <div style="text-align: center; margin-top: 20px;">
+    <!-- 🛠️ 修正：看板リンクを確実にbodyタグの直下に正しく配置 -->
+    <div style="text-align: center; margin-bottom: 20px;">
         <a href="x.com/cocoa_next7" target="_blank" style="font-size: 12px; color: #3498db; text-decoration: none; font-weight: bold;">
             🛠️ 開発者：ココア (プロのフリーランスへの成長記録はコチラ) 🛠️
         </a>
     </div>
 
-    <div class="container" style="margin-top: 20px;">
+    <div class="container">
         <h1>IT・建築用語タイピング</h1>
         <div id="status" style="color: #7f8c8d; font-size: 13px; margin-bottom: 10px;">スタートを押してタイピング開始！</div>
 
-        <!-- 【時間修正】初期表示を60秒に変更 -->
         <div class="timer-box">残り時間: <span id="time-left">60</span>秒</div>
 
         <div class="word-display" id="word-target">CAD</div>
@@ -153,7 +152,6 @@
         const words = ["CAD", "VERCEL", "GITHUB", "HTML", "CSS", "JAVASCRIPT", "COCOA", "LAPTOP", "CODE", "PRO", "GAMINGPC", "JWS", "SERVER"];
         
         let score = 0;
-        // 【時間修正】1分（60秒）に延長！
         let timeLeft = 60;
         let isPlaying = false;
         let timerId = null;
@@ -177,7 +175,6 @@
 
         startBtn.addEventListener("click", () => {
             score = 0;
-            // 【時間修正】スタート時も60秒にリセット
             timeLeft = 60;
             isPlaying = true;
             scoreText.textContent = score;
@@ -223,7 +220,6 @@
             copyBtn.style.display = "block";
         }
 
-        // 100%大元のロジック：ポップアップを出してクリップボードにコピーする処理
         copyBtn.addEventListener("click", () => {
             navigator.clipboard.writeText(shareText).then(() => {
                 alert("📋 スコアをクリップボードにコピーしました！Xに貼り付けて自慢してください！");
